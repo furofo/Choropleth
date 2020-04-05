@@ -2,18 +2,36 @@
 $(document).ready(function() {
     let json1;
     let json2;
+    var geoMultiPoint = {
+      "type": "MultiPoint",
+      "coordinates": [
+          [
+              -105.01621,
+              39.57422
+          ],
+          [
+              -80.6665134,
+              35.0539943
+          ]
+      ]
+  };
+  
     fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json')
       .then(response => response.json())
       .then(data => {
           json1 = JSON.parse(JSON.stringify(data));
-          console.log(json1);
+          
       });
 
     fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json')
       .then(response => response.json())
       .then(data => {
-          json2 = JSON.parse(JSON.stringify(data));
-          console.log(json2);
+        var geoPath = d3.geoPath();
+        json2 = JSON.parse(JSON.stringify(data));
+        console.log(json2);
+        console.log("geomteires " + json2["objects"]["counties"]["geometries"][0]);
+        console.log('hello again ' + geoPath(json2["objects"]["counties"]["geometries"]));
+         
       });
 
       var svg = d3.select("svg"),
