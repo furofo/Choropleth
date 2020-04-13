@@ -2,8 +2,8 @@
 $(document).ready(function() {
   let body = d3.select("body");
   let svg = d3.select("svg");
-  let width = 2000;
-  let height = 2000;
+  let width = 500;
+  let height = 500;
 
   
   var path = d3.geoPath();
