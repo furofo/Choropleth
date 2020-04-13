@@ -1,79 +1,89 @@
 
 $(document).ready(function() {
-    let json1;
-    let json2;
-    var geoMultiPoint = {
-      "type": "MultiPoint",
+  let body = d3.select("body");
+  let svg = d3.select("svg");
+  let width = 2000;
+  let height = 2000;
+
+  
+  var path = d3.geoPath();
+  console.log('this should be geopath?');
+  let feature = {
+    "type": "Feature",
+    "id": 18049,
+    "properties": {},
+    "geometry": {
+      "type": "Polygon",
       "coordinates": [
+        [
           [
-              -105.01621,
-              39.57422
+            649.1057769641899,
+            236.3490012887262
           ],
           [
-              -80.6665134,
-              35.0539943
+            655.5730607623997,
+            235.65348589750747
+          ],
+          [
+            655.8029642049944,
+            237.6231387281017
+          ],
+          [
+            656.7525653809294,
+            237.49455605073354
+          ],
+          [
+            656.8525233994488,
+            238.4823047996072
+          ],
+          [
+            658.0720112253864,
+            238.33618812077972
+          ],
+          [
+            658.161973442054,
+            239.3122475353472
+          ],
+          [
+            654.4735225586854,
+            239.77397624044198
+          ],
+          [
+            654.6634427938725,
+            241.70271640096453
+          ],
+          [
+            649.6755376697508,
+            242.2112024432841
+          ],
+          [
+            649.1057769641899,
+            236.3490012887262
           ]
+        ]
       ]
-  };
-  
-    fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json')
-      .then(response => response.json())
-      .then(data => {
-          json1 = JSON.parse(JSON.stringify(data));
-          
-      });
+    }
+  }
 
-    fetch('https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json')
-      .then(response => response.json())
-      .then(data => {
-        var geoPath = d3.geoPath();
-        json2 = JSON.parse(JSON.stringify(data));
-        console.log(json2);
-        console.log("geomteires " + json2["objects"]["counties"]["geometries"][0]);
-        console.log('hello again ' + geoPath(json2["objects"]["counties"]["geometries"]));
-         
-      });
-
-      var svg = d3.select("svg"),
-      width = +svg.attr("width"),
-      height = +svg.attr("height");
-    
-    // Map and projection
-    var path = d3.geoPath();
-    var projection = d3.geoMercator()
-      .scale(70)
-      .center([0,20])
-      .translate([width / 2, height / 2]);
-    
-    // Data and color scale
-    var data = d3.map();
-    var colorScale = d3.scaleThreshold()
-      .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
-      .range(d3.schemeBlues[7]);
-    
-    // Load external data and boot
-    d3.queue()
-      .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-      .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, +d.pop); })
+  const EDUCATION_FILE = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'; // this is  alink to eductation file simpler the one i called json 1
+  const COUNTY_FILE = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'; 
+  d3.queue()
+      .defer(d3.json, COUNTY_FILE)
+      .defer(d3.json, EDUCATION_FILE)
       .await(ready);
-    
-    function ready(error, topo) {
-    
-      // Draw the map
-      svg.append("g")
-        .selectAll("path")
-        .data(topo.features)
-        .enter()
-        .append("path")
-          // draw each country
-          .attr("d", d3.geoPath()
-            .projection(projection)
-          )
-          // set the color of each country
-          .attr("fill", function (d) {
-            d.total = data.get(d.id) || 0;
-            return colorScale(d.total);
-          });
-        }
+
+  function ready(error, us, education){
+  
+  if(error) throw error;
+  svg.append("g")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.counties).features)
+      .enter()
+      .append("path")
+      .attr("d", path)
+      .attr("fill", "black")
+      .attr("class", "counties");
+  }
 });
+
 
