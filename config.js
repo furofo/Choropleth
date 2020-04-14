@@ -29,7 +29,7 @@ $(document).ready(function() {
       .append("path")
       .attr("d", path)
       .attr("fill", "black")
-      .attr("class", "counties")
+      .attr("class", "county")
       .on("mouseover", function(d, i) {
         d3.select(this).attr("fill", "red");
         tooltip
