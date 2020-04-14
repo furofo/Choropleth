@@ -1,4 +1,6 @@
 
+
+
 $(document).ready(function() {
   let body = d3.select("body");
   let svg = d3.select("svg");
@@ -22,6 +24,10 @@ $(document).ready(function() {
       .await(ready);
   function ready(error, us, education){
   if(error) throw error;
+  let idMatch = function(currentData) {
+      let filteredEducation = education.filter((d) => d.fips == currentData.id);
+      return filteredEducation;
+  }
   svg.append("g")
       .selectAll("path")
       .data(topojson.feature(us, us.objects.counties).features)
@@ -30,6 +36,11 @@ $(document).ready(function() {
       .attr("d", path)
       .attr("fill", "black")
       .attr("class", "county")
+      .attr("data-fips", function(d) {
+        let fipsArr = idMatch(d);
+        console.log(fipsArr[0].fips);
+        return fipsArr[0].fips;
+      })
       .on("mouseover", function(d, i) {
         d3.select(this).attr("fill", "red");
         tooltip
