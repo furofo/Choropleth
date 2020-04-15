@@ -47,18 +47,19 @@ $(document).ready(function() {
       .on("mouseover", function(d, i) {
         d3.select(this).attr("fill", "red");
         tooltip
-          .style("left", d3.event.pageX - 50 + "px")
-          .style("top", d3.event.pageY - 125 + "px")
-          .style("visiblity", "visible")
-          .style("display", "inline-block")
-          .style("background", "black")
-          .style("color", "white")
-          .style("opacity", "0.8")
-          .style("padding-left: 10px")
-          .style("padding-right: 10px")
-          .style("padding-bottom: 10px")
-          .style("padding-top: 10px")
-          .html("this is a simpet tool tip test")
+        tooltip
+        .style("left", d3.event.pageX - 50 + "px")
+        .style("top", d3.event.pageY - 125 + "px")
+        .style("visiblity", "visible")
+        .style("display", "inline-block")
+        .style("background", "black")
+        .style("color", "white")
+        .style("opacity", "0.8")
+        .style("padding-left", "10px")
+        .style("padding-right:", "10px")
+        .style("padding-bottom", "10px")
+        .style("padding-top", "10px")
+        .html("this is a simpet tool tip test");
       })
       .on("mouseout", function(d) {
         d3.select(this).attr("fill", "black");
