@@ -42,7 +42,6 @@ $(document).ready(function() {
       })
       .attr("data-education", function(d) {
         let educationArr = idMatch(d);
-        console.log(educationArr[0]["bachelorsOrHigher"]);
         return educationArr[0]["bachelorsOrHigher"];
       })
       .on("mouseover", function(d, i) {
@@ -66,6 +65,9 @@ $(document).ready(function() {
         tooltip.style("display", "none");
       });
   }
+
+  let g = svg.append('g');
+    g.attr('id', "legend");
 });
 
 
