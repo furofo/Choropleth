@@ -44,6 +44,10 @@ $(document).ready(function() {
         let educationArr = idMatch(d);
         return educationArr[0]["bachelorsOrHigher"];
       })
+      .attr("area-name", function(d) {
+        let educationArr = idMatch(d);
+        return educationArr[0]["area_name"];
+      })
       .on("mouseover", function(d, i) {
         d3.select(this).attr("fill", "red");
         tooltip
@@ -55,12 +59,14 @@ $(document).ready(function() {
         .style("background", "black")
         .style("color", "white")
         .style("opacity", "0.8")
-        .style("padding-left", "10px")
-        .style("padding-right:", "10px")
-        .style("padding-bottom", "10px")
-        .style("padding-top", "10px")
+        .style("padding-left", "15px")
+        .style("padding-right", "15px")
+        .style("padding-bottom", "15px")
+        .style("padding-top", "15px")
+        .style("margin", "auto")
+        .style("text-align", "center")
         .attr("data-education", d3.select(this).attr('data-education'))
-        .html("this is a simpet tool tip test");
+        .html("Percentage in " + d3.select(this).attr("area-name") + " with Bachelor's <br />" + d3.select(this).attr('data-education') + '%');
       })
       .on("mouseout", function(d) {
         d3.select(this).attr("fill", "black");
