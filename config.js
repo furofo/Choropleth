@@ -38,8 +38,12 @@ $(document).ready(function() {
       .attr("class", "county")
       .attr("data-fips", function(d) {
         let fipsArr = idMatch(d);
-        console.log(fipsArr[0].fips);
         return fipsArr[0].fips;
+      })
+      .attr("data-education", function(d) {
+        let educationArr = idMatch(d);
+        console.log(educationArr[0]["bachelorsOrHigher"]);
+        return educationArr[0]["bachelorsOrHigher"];
       })
       .on("mouseover", function(d, i) {
         d3.select(this).attr("fill", "red");
