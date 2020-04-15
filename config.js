@@ -59,6 +59,7 @@ $(document).ready(function() {
         .style("padding-right:", "10px")
         .style("padding-bottom", "10px")
         .style("padding-top", "10px")
+        .attr("data-education", d3.select(this).attr('data-education'))
         .html("this is a simpet tool tip test");
       })
       .on("mouseout", function(d) {
