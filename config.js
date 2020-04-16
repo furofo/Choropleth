@@ -1,7 +1,6 @@
-
-
-
 $(document).ready(function() {
+
+  
   let body = d3.select("body");
   let svg = d3.select("svg");
   let width = 500;
@@ -28,6 +27,9 @@ $(document).ready(function() {
       let filteredEducation = education.filter((d) => d.fips == currentData.id);
       return filteredEducation;
   }
+  console.log("logging max and min of bacelors here");
+  console.log(d3.max(education, d => d.bachelorsOrHigher)); //75.1 is max
+  console.log(d3.min(education, d => d.bachelorsOrHigher)); // 2.6 is min
   svg.append("g")
       .selectAll("path")
       .data(topojson.feature(us, us.objects.counties).features)
