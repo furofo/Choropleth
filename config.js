@@ -27,16 +27,29 @@ $(document).ready(function() {
       let filteredEducation = education.filter((d) => d.fips == currentData.id);
       return filteredEducation;
   }
-  console.log("logging max and min of bacelors here");
-  console.log(d3.max(education, d => d.bachelorsOrHigher)); //75.1 is max
-  console.log(d3.min(education, d => d.bachelorsOrHigher)); // 2.6 is min
+ // console.log("logging max and min of bacelors here");
+  //console.log(d3.max(education, d => d.bachelorsOrHigher)); //75.1 is max
+  //console.log(d3.min(education, d => d.bachelorsOrHigher)); // 2.6 is min
+  let colorScale = d3.scaleThreshold()
+                      .domain([20, 40, 60])
+                      .range(d3.schemeBlues[9]);
+  //let colors = d3.scaleOrdinal(d3.schemeBlues[9]); // scale crhomatic color brewer color schme
+  // this is array of colors from schem blues  ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"]
+  // wnant to use a threshold scale and threshold invert extent
+
+  console.log('this is scale in action');
+  console.log(colorScale(130));
   svg.append("g")
       .selectAll("path")
       .data(topojson.feature(us, us.objects.counties).features)
       .enter()
       .append("path")
       .attr("d", path)
-      .attr("fill", "black")
+      .attr("fill", function(d) {
+        let educationArr = idMatch(d);
+        //console.log(" hey its me d again");
+       // console.log(educationArr[0].bachelorsOrHigher);
+        return colorScale(educationArr[0].bachelorsOrHigher);})
       .attr("class", "county")
       .attr("data-fips", function(d) {
         let fipsArr = idMatch(d);
@@ -71,7 +84,11 @@ $(document).ready(function() {
         .html("Percentage in " + d3.select(this).attr("area-name") + " with Bachelor's <br />" + d3.select(this).attr('data-education') + '%');
       })
       .on("mouseout", function(d) {
-        d3.select(this).attr("fill", "black");
+        let educationArr = idMatch(d);
+        //console.log(" hey its me d again");
+       // console.log(educationArr[0].bachelorsOrHigher);
+        let fillColor = colorScale(educationArr[0].bachelorsOrHigher);
+        d3.select(this).attr("fill", fillColor);
         tooltip.style("display", "none");
       });
   }
