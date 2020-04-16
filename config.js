@@ -31,7 +31,7 @@ $(document).ready(function() {
   //console.log(d3.max(education, d => d.bachelorsOrHigher)); //75.1 is max
   //console.log(d3.min(education, d => d.bachelorsOrHigher)); // 2.6 is min
   let colorScale = d3.scaleThreshold()
-                      .domain([20, 40, 60])
+                      .domain([10, 20, 30, 40, 50, 60])
                       .range(d3.schemeBlues[9]);
   //let colors = d3.scaleOrdinal(d3.schemeBlues[9]); // scale crhomatic color brewer color schme
   // this is array of colors from schem blues  ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"]
