@@ -32,13 +32,12 @@ $(document).ready(function() {
   //console.log(d3.min(education, d => d.bachelorsOrHigher)); // 2.6 is min
   let colorScale = d3.scaleThreshold()
                       .domain([10, 20, 30, 40, 50, 60])
-                      .range(d3.schemeBlues[9]);
+                      .range(["#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"]);
   //let colors = d3.scaleOrdinal(d3.schemeBlues[9]); // scale crhomatic color brewer color schme
   // this is array of colors from schem blues  ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"]
   // wnant to use a threshold scale and threshold invert extent
 
-  console.log('this is scale in action');
-  console.log(colorScale(130));
+  
   svg.append("g")
       .selectAll("path")
       .data(topojson.feature(us, us.objects.counties).features)
@@ -91,10 +90,41 @@ $(document).ready(function() {
         d3.select(this).attr("fill", fillColor);
         tooltip.style("display", "none");
       });
+
+  let gXscale = d3.scaleLinear()
+                  .domain([0, 60])
+                  .range([0, 300]); // takes array takes array takes array DO NOT FORGET BrACKETS GRRR
+  
+  console.log('this is gscale');
+  console.log(gXscale(10));
+  let g = svg.append('g');
+  g.attr('id', "legend");
+  
+  g.selectAll("rect")
+    .data(colorScale.range().map(function(color) {
+      var d = colorScale.invertExtent(color);
+      if(d[0]== undefined) {d[0] = 0};
+      if(d[1]== undefined) {d[1] = 60};
+      console.log("this is d");
+      console.log(d);
+      return d;
+      
+    }))
+  .enter()
+  .append("rect")
+  .attr('height', 8)
+  .attr('fill', function(d) { return colorScale(d[0])})
+  .attr('x', function(d) {return gXscale(d[0])})
+  .attr('width', function(d) {
+   // console.log(d[1]);
+    //console.log(d[0]);
+   // console.log("here comes the x scale choo choo");
+   // console.log(gXscale(d[1]));
+     return gXscale(d[1]) - gXscale(d[0]);
+     });
   }
 
-  let g = svg.append('g');
-    g.attr('id', "legend");
+  
 });
 
 
