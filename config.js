@@ -93,11 +93,17 @@ $(document).ready(function() {
 
   let gXscale = d3.scaleLinear()
                   .domain([0, 60])
-                  .range([0, 300]); // takes array takes array takes array DO NOT FORGET BrACKETS GRRR
+                  .range([0, 300])
+                  ; // takes array takes array takes array DO NOT FORGET BrACKETS GRRR
   
   console.log('this is gscale');
   console.log(gXscale(10));
   let g = svg.append('g');
+  let xAxis = d3.axisBottom(gXscale)
+             // .tickValues(colorScale.domain().filter(function(d,i){  
+    // only show every 10 tick or every 10th year
+               .tickValues( gXscale.ticks( 5 ).concat( gXscale.domain() ) );
+                
   g.attr('id', "legend");
   
   g.selectAll("rect")
@@ -112,17 +118,26 @@ $(document).ready(function() {
     }))
   .enter()
   .append("rect")
-  .attr('height', 8)
+  .attr('height', 30)
   .attr('fill', function(d) { return colorScale(d[0])})
   .attr('x', function(d) {return gXscale(d[0])})
+  
   .attr('width', function(d) {
    // console.log(d[1]);
     //console.log(d[0]);
    // console.log("here comes the x scale choo choo");
    // console.log(gXscale(d[1]));
      return gXscale(d[1]) - gXscale(d[0]);
-     });
+     })
+  .attr('transform', 'translate(570, 32)');
+
+  g.append("g")
+    .attr('id', "x-axis")
+    .attr('transform', 'translate(570, 64)')
+    .call(xAxis);
   }
+
+  
 
   
 });
